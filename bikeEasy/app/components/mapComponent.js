@@ -10,8 +10,6 @@ import DirectionsStore from '../stores/directionsStore'
 
 const renderLegs = new DirectionsStore()
 
-// case in switch named 'Map'
-
 export default class Map extends Component {
   constructor(props) {
     super(props)
