@@ -1,19 +1,42 @@
 import React, { Component } from 'react'
-import { Navigator, AppRegistry, View, Text } from 'react-native'
+import { AppRegistry, View, Text } from 'react-native'
+import { Navigator } from 'react-native-deprecated-custom-components'
+
+import SearchInput from './components/searchInputs'
+import Map from './components/mapComponent'
+import DirectionsList from './components/directionsList'
 
 export default class AppContainer extends Component {
   constructor(){
     super()
   }
 
-  render() {
-  return(
-    <View>
-      <Text> I am working! </Text>
-    </View>
-    )
+  renderScene(route, navigator) {
+    console.log('render scene is working. navigator working');
+    switch(route.title) {
+      case 'Start Trip':
+      return <SearchInput navigator={navigator}/>
+      break;
+      case 'Map':
+      return <Map navigator={navigator}/>
+      break;
+      case 'List':
+      return <DirectionsList navigator={navigator}/>
+      default:
+      return (
+        <Text>Hello {route.title}! This is the default case</Text>
+      )
+    }
   }
 
+  render() {
+  return(
+      <Navigator
+        initialRoute={{ title: 'Start Trip', index: 0 }}
+        renderScene={this.renderScene.bind(this)}
+        />
+    )
+  }
 }
 
 AppRegistry.registerComponent('AppContainer', () => AppContainer);

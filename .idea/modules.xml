@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/local-cli/core/__fixtures__/__fixtures__.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/local-cli/core/__fixtures__/__fixtures__.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/local-cli/link/__fixtures__/android/android.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/local-cli/link/__fixtures__/android/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/androidTest/androidTest.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/androidTest/androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fb/jni/jni.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/main/jni/first-party/fb/jni/jni.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/local-cli/templates/HelloWorld/android/app/src/main/main.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/local-cli/templates/HelloWorld/android/app/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/main/main1.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/android/app/src/main/main2.iml" filepath="$PROJECT_DIR$/bikeEasy/android/app/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/test/test.iml" filepath="$PROJECT_DIR$/bikeEasy/node_modules/react-native/ReactAndroid/src/test/test.iml" />
+    </modules>
+  </component>
+</project>
