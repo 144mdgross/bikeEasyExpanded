@@ -22,6 +22,7 @@ export default class SearchInput extends Component {
 
   _useLocation() {
     // use geolocation api here
+    
   }
 
   render(){
