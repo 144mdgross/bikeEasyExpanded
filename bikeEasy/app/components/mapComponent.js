@@ -20,8 +20,6 @@ export default class Map extends Component {
   constructor(props) {
     super(props)
 
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
     this.state = {
       coords1: [],
       text1: [],
@@ -31,7 +29,8 @@ export default class Map extends Component {
       text3: [],
       coords: [],
       wholeText: [],
-      dataSource: ds.cloneWithRows(['row', 'row', 'row', 'row'])
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+      loaded: false
     }
   }
 
@@ -66,11 +65,13 @@ export default class Map extends Component {
               // console.log(finalText);
 
               this.setState({coords: finalCoords})
-              this.setState({dataSource: ds.cloneWithRows(finalText)})
+              this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), loaded: true})
 
             })
         })
     })
+    // added this after looking at r-n listView example
+      .done()
   }
 
   _viewList() {
@@ -113,11 +114,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * .9
+    height: Dimensions.get('window').height * .85
   },
   directions: {
     flex: 1,
-    marginTop: Dimensions.get('window').height * .9,
+    marginTop: Dimensions.get('window').height * .85,
     paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,

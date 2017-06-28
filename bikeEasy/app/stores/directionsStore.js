@@ -25,7 +25,8 @@ export default class Directions {
       })
 
       let text = completeBikeSteps.map((obj, index) => {
-        return obj.html_instructions
+        let regex = /(<([^>]+)>)/ig, result = obj.html_instructions.replace(regex, "")
+        return result
       })
 
       return { coordsBike, text }
