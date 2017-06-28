@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { AppRegistry, View, Text } from 'react-native'
 import { Navigator } from 'react-native-deprecated-custom-components'
 
-import SearchInput from './components/searchInputs'
+import SearchScene from './scenes/searchScene'
 import Map from './components/mapComponent'
 import DirectionsList from './components/directionsList'
 
@@ -15,7 +15,7 @@ export default class AppContainer extends Component {
     console.log('render scene is working. navigator working');
     switch(route.title) {
       case 'Start Trip':
-      return <SearchInput navigator={navigator}/>
+      return <SearchScene navigator={navigator}/>
       break;
       case 'Map':
       return <Map navigator={navigator}/>

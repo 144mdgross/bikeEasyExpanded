@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ScrollView, ListView, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, ListView, StyleSheet, Dimensions } from 'react-native'
 import { Navigator } from 'react-native-deprecated-custom-components'
 import Button from 'react-native-button';
 
@@ -74,9 +74,9 @@ export default class Map extends Component {
       .done()
   }
 
-  _viewList() {
+  _newSearch() {
     this.props.navigator.replace({
-      title: 'List'
+      title: 'Start Trip'
     })
   }
 
@@ -95,6 +95,12 @@ export default class Map extends Component {
             strokeColor="purple"/>
 
         </MapView>
+        <Button
+            style={styles.newSearch}
+            styleDisabled={{color: 'red'}}
+            onPress={() => this._newSearch()}>
+            New Search
+        </Button>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(rowData) => <Text>{rowData}</Text>}
@@ -103,7 +109,6 @@ export default class Map extends Component {
       </View>
     )
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -125,17 +130,15 @@ const styles = StyleSheet.create({
     paddingBottom: 90,
     bottom: 0
 
+  },
+  newSearch: {
+    marginTop: 20,
   }
 });
 
 
 
-// <Button
-//     style={{fontSize: 20, color: 'green'}}
-//     styleDisabled={{color: 'red'}}
-//     onPress={() => this._viewList()}>
-//     Text Directions
-// </Button>
+//
 
 // <ScrollView style={styles.directions}>
 //   <Text> where do i go? </Text>
