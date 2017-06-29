@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, Icon, Picker } from 'react-native'
-import { Navigator } from 'react-native-deprecated-custom-components'
+import { ScrollView, Text, AsyncStorage } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import Button from 'react-native-button';
 
 const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
+import DirectionsStore from '../stores/directionsStore'
+
+const Directions = new DirectionsStore()
 
 export default class SearchInput extends Component {
   constructor(props){
@@ -18,11 +20,11 @@ export default class SearchInput extends Component {
     }
 }
 
-  _handlePress() {
-    this.props.navigator.replace({
-        title: 'Map'
-      })
-    }
+  // _handlePress() {
+  //   this.props.navigator.replace({
+  //       title: 'Map'
+  //     })
+  //   }
 
   _useLocation() {
     // use geolocation api hereeeeeeee
@@ -31,8 +33,9 @@ export default class SearchInput extends Component {
 
   render(){
     return(
+    <ScrollView>
       <GooglePlacesAutocomplete
-              placeholder=''
+              placeholder='Start'
               minLength={2} // minimum length of text to search
               autoFocus={false}
               returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -40,8 +43,9 @@ export default class SearchInput extends Component {
               fetchDetails={true}
               renderDescription={(row) => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                console.log(data);
-                console.log(details);
+              Directions.setAsyncStorageStart(`${details.geometry.location.lat}, ${details.geometry.location.lng}`)
+
+                // this.setState({start: `${details.geometry.location.lat}, ${details.geometry.location.lng}`})
               }}
               getDefaultValue={() => {
                 return ''; // text input default value
@@ -98,6 +102,74 @@ export default class SearchInput extends Component {
                 },
               }}
             />
+            <GooglePlacesAutocomplete
+                    placeholder='End'
+                    minLength={2} // minimum length of text to search
+                    autoFocus={false}
+                    returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                    listViewDisplayed='auto'    // true/false/undefined
+                    fetchDetails={true}
+                    renderDescription={(row) => row.description} // custom description render
+                    onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                      console.log('setting storage????');
+                      Directions.setAsyncStorageEnd(`${details.geometry.location.lat}, ${details.geometry.location.lng}`)
+                    }}
+                    getDefaultValue={() => {
+                      return ''; // text input default value
+                    }}
+                    query={{
+                      // available options: https://developers.google.com/places/web-service/autocomplete
+                      key: 'AIzaSyC8Lgex8nTqbToDXIyayP-WHEe2ssI6j5c',
+                      language: 'en' // language of the results
+                    }}
+                    styles={{
+                      description: {
+                        fontWeight: 'bold',
+                      },
+                      predefinedPlacesDescription: {
+                        color: '#1faadb',
+                      },
+                    }}
+
+                    currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+                    currentLocationLabel="Current location"
+                    nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                    // GoogleReverseGeocodingQuery={{
+                    //   // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                    // }}
+                    // GooglePlacesSearchQuery={{
+                    //   // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                    //   rankby: 'distance',
+                    // }}
+
+
+                    filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+
+                    predefinedPlaces={[homePlace, workPlace]}
+
+                    debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+
+                    renderRightButton={() => <Text>Custom text after the inputag</Text>}
+
+                    styles={{
+                      textInputContainer: {
+                        backgroundColor: 'rgba(0,0,0,0)',
+                        borderTopWidth: 0,
+                        borderBottomWidth:0
+                      },
+                      textInput: {
+                        marginLeft: 0,
+                        marginRight: 0,
+                        height: 38,
+                        color: '#5d5d5d',
+                        fontSize: 16
+                      },
+                      predefinedPlacesDescription: {
+                        color: '#1faadb'
+                      },
+                    }}
+                  />
+        </ScrollView>
     )
   }
 }

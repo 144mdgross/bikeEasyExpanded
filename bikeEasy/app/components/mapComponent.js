@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ListView, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, ListView, StyleSheet, Dimensions, AsyncStorage } from 'react-native'
 import { Navigator } from 'react-native-deprecated-custom-components'
 import Button from 'react-native-button';
 
@@ -21,6 +21,8 @@ export default class Map extends Component {
     super(props)
 
     this.state = {
+      start: "40.018779, -105.276376",
+      end: "39.753931, -105.001159",
       coords1: [],
       text1: [],
       coords2: [],
@@ -34,8 +36,21 @@ export default class Map extends Component {
     }
   }
 
+  componentWillMount(){
+    renderLegs.getStartCoords()
+    .then(place => {
+      this.setState({start: place})
+      console.log('THIS STATE START', this.state.start);
+    })
+    renderLegs.getEndCoords()
+      .then(end => {
+        this.setState({end: end})
+        console.log('THIS STATE END', this.state.end);
+      })
+  }
+
   componentDidMount() {
-  renderLegs.getBikeDirections("40.018779, -105.276376", "40.016779, -105.276376")
+  renderLegs.getBikeDirections(this.state.start, "40.016779, -105.276376")
     .then(bikeDirections => {
       this.setState({coords1: bikeDirections.coordsBike})
       this.setState({text1: bikeDirections.text})
@@ -45,7 +60,7 @@ export default class Map extends Component {
           this.setState({coords2: busDirections.coords})
           this.setState({text2: busDirections.text})
 
-          renderLegs.getBikeDirections("39.753931, -105.001159", "39.755931, -105.001159")
+          renderLegs.getBikeDirections("39.753931, -105.001159", this.state.end)
             .then(bikeTwo => {
               this.setState({coords3: bikeTwo.coordsBike})
               this.setState({text3: bikeTwo.text})
@@ -124,7 +139,7 @@ const styles = StyleSheet.create({
   directions: {
     flex: 1,
     marginTop: Dimensions.get('window').height * .85,
-    paddingTop: 10,
+    paddingTop: 1,
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 90,

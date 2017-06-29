@@ -1,4 +1,5 @@
 import Polyline from '@mapbox/polyline'
+import { AsyncStorage } from 'react-native'
 
 export default class Directions {
   constructor(props) {
@@ -7,6 +8,46 @@ export default class Directions {
       coords2: [],
       coords3: []
     }
+  }
+
+  async setAsyncStorageStart(searchCoords) {
+    try {
+      await AsyncStorage.setItem('start', searchCoords)
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  async setAsyncStorageEnd(endCoords) {
+    try {
+      await AsyncStorage.setItem('end', endCoords)
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  async getStartCoords() {
+    try {
+        const value = await AsyncStorage.getItem('start');
+      if (value !== null){
+          return value
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+  async getEndCoords() {
+    try {
+        const value = await AsyncStorage.getItem('end');
+      if (value !== null){
+          return value
+
+        }
+      } catch (error) {
+        console.log(error);
+      }
   }
 
   async getBikeDirections(startBike, endBike) {
