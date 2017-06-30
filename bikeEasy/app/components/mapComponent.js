@@ -75,17 +75,17 @@ export default class Map extends Component {
           .then(res => {
             this.setState({ busEnd: res})
 
-        renderLegs.getBikeDirections(this.state.start, "40.016779, -105.276376")
+        renderLegs.getBikeDirections(this.state.start, this.state.startCity)
           .then(bikeDirections => {
             this.setState({coords1: bikeDirections.coordsBike})
             this.setState({text1: bikeDirections.text})
 
-            renderLegs.getBusDirections("40.016779, -105.276376", "39.753931, -105.001159")
+            renderLegs.getBusDirections(this.state.startCity, this.state.endCity)
               .then(busDirections => {
                 this.setState({coords2: busDirections.coords})
                 this.setState({text2: busDirections.text})
 
-                renderLegs.getBikeDirections("39.753931, -105.001159", this.state.end)
+                renderLegs.getBikeDirections(this.state.endCity, this.state.end)
                   .then(bikeTwo => {
                     this.setState({coords3: bikeTwo.coordsBike})
                     this.setState({text3: bikeTwo.text})
