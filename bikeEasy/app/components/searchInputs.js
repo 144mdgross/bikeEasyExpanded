@@ -28,6 +28,20 @@ export default class SearchInput extends Component {
 
   _useLocation() {
     // use geolocation api hereeeeeeee
+  }
+
+  getCity(info) {
+    for (let i = 0; i < info.address_components.length; i++) {
+      if (info.address_components[i].types[0] === 'locality') {
+
+        return info.address_components[i].long_name
+      }
+    }
+    // loop through address component array.
+    // check to see if 'types' exists
+    // if it does check the first index and see if it === 'locality'
+    // if it does return that index[long_name]
+
 
   }
 
@@ -43,6 +57,10 @@ export default class SearchInput extends Component {
               fetchDetails={true}
               renderDescription={(row) => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+              let startCity = this.getCity(details)
+
+              Directions.setStartCity(startCity)
+
               Directions.setAsyncStorageStart(`${details.geometry.location.lat}, ${details.geometry.location.lng}`)
 
                 // this.setState({start: `${details.geometry.location.lat}, ${details.geometry.location.lng}`})
@@ -111,7 +129,9 @@ export default class SearchInput extends Component {
                     fetchDetails={true}
                     renderDescription={(row) => row.description} // custom description render
                     onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                      console.log('setting storage????');
+                      let endCity = this.getCity(details)
+                      Directions.setEndCity(endCity)
+                      // now I need to set the return value of getCity into async storage and pull it out?
                       Directions.setAsyncStorageEnd(`${details.geometry.location.lat}, ${details.geometry.location.lng}`)
                     }}
                     getDefaultValue={() => {

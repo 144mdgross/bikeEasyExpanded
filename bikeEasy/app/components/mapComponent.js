@@ -23,6 +23,10 @@ export default class Map extends Component {
     this.state = {
       start: "40.018779, -105.276376",
       end: "39.753931, -105.001159",
+      startCity: '',
+      endCity: '',
+      busStart: '',
+      busEnd: '',
       coords1: [],
       text1: [],
       coords2: [],
@@ -38,53 +42,77 @@ export default class Map extends Component {
 
   componentWillMount(){
     renderLegs.getStartCoords()
-    .then(place => {
-      this.setState({start: place})
-      console.log('THIS STATE START', this.state.start);
+    .then(start => {
+      this.setState({ start })
     })
+
     renderLegs.getEndCoords()
       .then(end => {
-        this.setState({end: end})
-        console.log('THIS STATE END', this.state.end);
+        this.setState({ end })
+      })
+
+    renderLegs.getEndCity()
+      .then(endCity => {
+        this.setState({ endCity })
+      })
+
+    renderLegs.getStartCity()
+      .then(startCity => {
+        this.setState({ startCity })
       })
   }
 
   componentDidMount() {
-  renderLegs.getBikeDirections(this.state.start, "40.016779, -105.276376")
-    .then(bikeDirections => {
-      this.setState({coords1: bikeDirections.coordsBike})
-      this.setState({text1: bikeDirections.text})
+  renderLegs.getStartCity()
+      .then(startCity => {
+        this.setState({ startCity })
 
-      renderLegs.getBusDirections("40.016779, -105.276376", "39.753931, -105.001159")
-        .then(busDirections => {
-          this.setState({coords2: busDirections.coords})
-          this.setState({text2: busDirections.text})
+    renderLegs.getBusRoute(this.state.startCity)
+      .then(res => {
+        this.setState({ busStart: res})
 
-          renderLegs.getBikeDirections("39.753931, -105.001159", this.state.end)
-            .then(bikeTwo => {
-              this.setState({coords3: bikeTwo.coordsBike})
-              this.setState({text3: bikeTwo.text})
+      renderLegs.getBusRoute(this.state.endCity)
+          .then(res => {
+            this.setState({ busEnd: res})
 
-              pushedCoords.push(bikeDirections.coordsBike, busDirections.coords, bikeTwo.coordsBike)
+        renderLegs.getBikeDirections(this.state.start, "40.016779, -105.276376")
+          .then(bikeDirections => {
+            this.setState({coords1: bikeDirections.coordsBike})
+            this.setState({text1: bikeDirections.text})
 
-              finalCoords = pushedCoords.reduce((a, b) => {
-                return a.concat(b)
+            renderLegs.getBusDirections("40.016779, -105.276376", "39.753931, -105.001159")
+              .then(busDirections => {
+                this.setState({coords2: busDirections.coords})
+                this.setState({text2: busDirections.text})
+
+                renderLegs.getBikeDirections("39.753931, -105.001159", this.state.end)
+                  .then(bikeTwo => {
+                    this.setState({coords3: bikeTwo.coordsBike})
+                    this.setState({text3: bikeTwo.text})
+
+                    pushedCoords.push(bikeDirections.coordsBike, busDirections.coords, bikeTwo.coordsBike)
+
+                    finalCoords = pushedCoords.reduce((a, b) => {
+                      return a.concat(b)
+                    })
+                    // console.log(finalCoords);
+
+                    pushedText.push(bikeDirections.text, busDirections.text, bikeTwo.text)
+
+                    finalText = pushedText.reduce((c, d) => {
+                      return c.concat(d)
+                    })
+                    // console.log(finalText);
+
+                    this.setState({coords: finalCoords})
+                    this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), loaded: true})
+
+                  })
               })
-              // console.log(finalCoords);
-
-              pushedText.push(bikeDirections.text, busDirections.text, bikeTwo.text)
-
-              finalText = pushedText.reduce((c, d) => {
-                return c.concat(d)
-              })
-              // console.log(finalText);
-
-              this.setState({coords: finalCoords})
-              this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), loaded: true})
-
-            })
-        })
+          })
+      })
     })
+})
     // added this after looking at r-n listView example
       .done()
   }

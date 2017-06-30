@@ -1,5 +1,7 @@
 import Polyline from '@mapbox/polyline'
-import { AsyncStorage } from 'react-native'
+import {
+  AsyncStorage
+} from 'react-native'
 
 export default class Directions {
   constructor(props) {
@@ -14,7 +16,7 @@ export default class Directions {
     try {
       await AsyncStorage.setItem('start', searchCoords)
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
@@ -22,32 +24,74 @@ export default class Directions {
     try {
       await AsyncStorage.setItem('end', endCoords)
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
+  async setStartCity(startCity) {
+    try {
+      await AsyncStorage.setItem('startCity', startCity)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async setEndCity(endCity) {
+    try {
+      await AsyncStorage.setItem('endCity', endCity)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
   async getStartCoords() {
     try {
-        const value = await AsyncStorage.getItem('start');
-      if (value !== null){
-          return value
+      const startLatLng = await AsyncStorage.getItem('start');
+      if (startLatLng !== null) {
+        return startLatLng
 
-        }
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getEndCoords() {
     try {
-        const value = await AsyncStorage.getItem('end');
-      if (value !== null){
-          return value
+      const endLatLng = await AsyncStorage.getItem('end');
+      if (endLatLng !== null) {
+        return endLatLng
 
-        }
-      } catch (error) {
-        console.log(error);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getStartCity() {
+    try {
+      const startLoc = await AsyncStorage.getItem('startCity');
+      if (startLoc !== null) {
+        return startLoc
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getEndCity() {
+    try {
+      const endLoc = await AsyncStorage.getItem('endCity');
+      if (endLoc !== null) {
+        return endLoc
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getBikeDirections(startBike, endBike) {
@@ -58,7 +102,7 @@ export default class Directions {
       let completeBikeSteps = respJsonBike.routes[0].legs[0].steps
       let pointsBike = Polyline.decode(respJsonBike.routes[0].overview_polyline.points)
 
-      let coordsBike = pointsBike.map((point, index) =>{
+      let coordsBike = pointsBike.map((point, index) => {
         return {
           latitude: point[0],
           longitude: point[1]
@@ -66,15 +110,40 @@ export default class Directions {
       })
 
       let text = completeBikeSteps.map((obj, index) => {
-        let regex = /(<([^>]+)>)/ig, result = obj.html_instructions.replace(regex, "")
+        let regex = /(<([^>]+)>)/ig,
+          result = obj.html_instructions.replace(regex, "")
         return result
       })
 
-      return { coordsBike, text }
-    } catch(error) {
+      return {
+        coordsBike,
+        text
+      }
+    } catch (error) {
       alert(error)
       return error
     }
+  }
+
+  // fetch('/api/homeForm',{
+  //           method:"POST",
+  //           headers: {
+  //                'Accept': 'application/json',
+  //                'Content-Type': 'application/json'
+  //              },
+  //           body:JSON.stringify(this.state)
+  //         })
+
+  // this needs to query for coords for two different cities.
+  async getBusRoute(city) {
+    try {
+      let route = await fetch(`https://bike-easy-routes.herokuapp.com/${city}`)
+      return route
+    } catch (error) {
+      alert(error)
+      return error
+    }
+
   }
 
   async getBusDirections(start, end) {
@@ -85,7 +154,7 @@ export default class Directions {
       let completeSteps = respJson.routes[0].legs[0].steps
       let points = Polyline.decode(respJson.routes[0].overview_polyline.points)
 
-      let coords = points.map((point, index) =>{
+      let coords = points.map((point, index) => {
         return {
           latitude: point[0],
           longitude: point[1]
@@ -97,8 +166,11 @@ export default class Directions {
       })
 
 
-      return { coords, text }
-    } catch(error) {
+      return {
+        coords,
+        text
+      }
+    } catch (error) {
       alert(error)
       return error
     }
