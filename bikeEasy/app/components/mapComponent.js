@@ -18,6 +18,9 @@ let pushedText = []
 let finalText
 
 export default class Map extends Component {
+  static navigationOptions = {
+    title: 'Directions'
+  }
   constructor(props) {
     super(props)
 
@@ -171,6 +174,7 @@ componentWillUnmount(){
 }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View>
         <MapView style={styles.map} initialRegion={{

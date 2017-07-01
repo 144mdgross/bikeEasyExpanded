@@ -6,6 +6,9 @@ import Button from 'react-native-button';
 import SearchInputs from '../components/searchInputs'
 
 export default class SearchScene extends Component {
+  static navigationOptions = {
+    title: 'Search'
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -21,6 +24,7 @@ export default class SearchScene extends Component {
   }
 
   render(){
+    const { navigate } = this.props.navigation;
     return(
     <View>
       <SearchInputs/>
