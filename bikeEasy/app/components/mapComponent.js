@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, ListView, StyleSheet, Dimensions, AsyncStorage } from 'react-native'
 import { Navigator } from 'react-native-deprecated-custom-components'
 import Button from 'react-native-button';
+import { Spinner } from 'native-base'
 
 import MapView from 'react-native-maps'
 import Polyline from '@mapbox/polyline'
@@ -36,11 +37,28 @@ export default class Map extends Component {
       coords: [],
       wholeText: [],
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      loaded: false
+      fetching: true
     }
   }
 
+  forceUpdate() {
+    console.log('forceUpdate is being called yo');
+    // this.setState({pushedCoords: []})
+    // console.log('%%%%%% pushedCoords %%%%%%%%%%%', this.state.pushedCoords);
+    // this.setState({pushedText: []})
+    // console.log('%%%%%% pushedText %%%%%%%%%%%', this.state.pushedText);
+    // this.setState({finalText: []})
+    // console.log('%%%%%% finalText %%%%%%%%%%%', this.state.finalText);
+    // this.setState({finalCoords: []})
+    // console.log('%%%%%% finalCoords %%%%%%%%%%%', this.state.finalCoords);
+    // this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: true})
+  }
+
   componentWillMount(){
+    // this.forceUpdate()
+    console.log('%%%%%%%%%%% this.state.coords in componentWillMount', this.state.coords);
+    console.log('%%%%%%%%%%% this.state.wholeText in componentWillMount', this.state.wholeText);
+
     renderLegs.getStartCoords()
     .then(start => {
       this.setState({ start })
@@ -63,6 +81,8 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
+      console.log('%%%%%%%%%%% this.state.coords in componentDidMount', this.state.coords);
+      console.log('%%%%%%%%%%% this.state.wholeText in componentDidMount', this.state.wholeText);
   renderLegs.getStartCity()
       .then(startCity => {
         this.setState({ startCity })
@@ -105,23 +125,50 @@ export default class Map extends Component {
                     // console.log(finalText);
 
                     this.setState({coords: finalCoords})
-                    this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), loaded: true})
+                    this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: false})
 
                   })
+                })
               })
+            })
           })
-      })
-    })
-})
+        })
     // added this after looking at r-n listView example
       .done()
   }
 
   _newSearch() {
-    this.props.navigator.replace({
-      title: 'Start Trip'
-    })
+    // this.setState({startCity: '', endCity: '',  busStart: '', busEnd: '', coords1: [], text1: [], coords2: [], text2: [], coords3: [], text3: [], coords: [], wholeText: [], loaded: false })
+
+    this.props.navigator.pop()
+
+    // this.props.navigator.replace({
+    //   title: 'Start Trip'
+    // })
   }
+
+componentWillUnmount(){
+  console.log('componentWillUnmount is being called yo');
+  // this.setState({pushedCoords: []})
+  console.log('%%%%%% pushedCoords %%%%%%%%%%%', this.state.pushedCoords);
+  // this.setState({pushedText: []})
+  console.log('%%%%%% pushedText %%%%%%%%%%%', this.state.pushedText);
+  // this.setState({finalText: []})
+  console.log('%%%%%% finalText %%%%%%%%%%%', this.state.finalText);
+  // this.setState({finalCoords: []})
+  console.log('%%%%%% finalCoords %%%%%%%%%%%', this.state.finalCoords);
+  // this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: true})
+
+  // MapView.Polyline.remove()
+  // const blankState = {};
+  //     Object.keys(this.state).forEach(stateKey => {
+  //       if(stateKey !== 'dataSource') {
+  //       blankState[stateKey] = undefined;
+  //       }
+  //     });
+  //     this.setState(blankState);
+  //     console.log('%%%%%%% this.state after componentWillUnmount %%%%%%', this.state.coords, this.state.wholeText);
+}
 
   render() {
     return (

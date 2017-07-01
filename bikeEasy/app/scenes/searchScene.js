@@ -14,7 +14,7 @@ export default class SearchScene extends Component {
   }
 
   _go() {
-    this.props.navigator.replace({
+    this.props.navigator.push({
       title: 'Map',
       passProps: this.props
     })

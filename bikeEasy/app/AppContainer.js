@@ -19,10 +19,10 @@ export default class AppContainer extends Component {
     console.log('render scene is working. navigator working');
     switch(route.title) {
       case 'Start Trip':
-      return <SearchScene {...route.passProps} navigator={navigator}/>
+      return <SearchScene navigator={navigator}/>
       break;
       case 'Map':
-      return <Map {...route.passProps} navigator={navigator}/>
+      return <Map navigator={navigator}/>
       break;
       default:
       return (
