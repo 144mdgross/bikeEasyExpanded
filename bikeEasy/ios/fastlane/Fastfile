@@ -36,6 +36,8 @@ platform :ios do
     gym(scheme: "bikeEasy") # Build your app - more options available
     pilot
 
+    increment_build_number(xcodeproj: "bikeEasy.xcodeproj")
+
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
   end

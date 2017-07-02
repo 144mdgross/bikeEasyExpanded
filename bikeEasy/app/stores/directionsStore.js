@@ -4,13 +4,6 @@ import {
 } from 'react-native'
 
 export default class Directions {
-  constructor(props) {
-    this.state = {
-      coords1: [],
-      coords2: [],
-      coords3: []
-    }
-  }
 
   async setAsyncStorageStart(searchCoords) {
     try {
@@ -111,7 +104,7 @@ export default class Directions {
 
       let text = completeBikeSteps.map((obj, index) => {
         let regex = /(<([^>]+)>)/ig,
-          result = obj.html_instructions.replace(regex, "")
+          result = obj.html_instructions.replace(regex, " ")
         return result
       })
 
@@ -125,16 +118,6 @@ export default class Directions {
     }
   }
 
-  // fetch('/api/homeForm',{
-  //           method:"POST",
-  //           headers: {
-  //                'Accept': 'application/json',
-  //                'Content-Type': 'application/json'
-  //              },
-  //           body:JSON.stringify(this.state)
-  //         })
-
-  // this needs to query for coords for two different cities.
   async getBusRoute(city) {
     try {
       let route = await fetch(`https://bike-easy-routes.herokuapp.com/${city}`)
@@ -143,7 +126,6 @@ export default class Directions {
       alert(error)
       return error
     }
-
   }
 
   async getBusDirections(start, end) {
@@ -152,6 +134,7 @@ export default class Directions {
 
       let respJson = await resp.json()
       let completeSteps = respJson.routes[0].legs[0].steps
+
       let points = Polyline.decode(respJson.routes[0].overview_polyline.points)
 
       let coords = points.map((point, index) => {
@@ -165,7 +148,6 @@ export default class Directions {
         return obj.html_instructions
       })
 
-
       return {
         coords,
         text
@@ -175,5 +157,4 @@ export default class Directions {
       return error
     }
   }
-
 }

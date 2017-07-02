@@ -14,7 +14,8 @@
     "react-native-button": "^2.0.0",
     "react-native-deprecated-custom-components": "^0.1.0",
     "react-native-google-places-autocomplete": "^1.2.12",
-    "react-native-maps": "^0.15.2"
+    "react-native-maps": "^0.15.2",
+    "react-native-restart": "0.0.2"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",

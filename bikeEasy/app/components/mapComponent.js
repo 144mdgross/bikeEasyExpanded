@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { View, Text, ListView, StyleSheet, Dimensions, AsyncStorage } from 'react-native'
-import { Navigator } from 'react-native-deprecated-custom-components'
+import React, { Component } from 'react';
+import { View, Text, ListView, StyleSheet, Dimensions, AsyncStorage } from 'react-native';
+import { Navigator } from 'react-native-deprecated-custom-components';
 import Button from 'react-native-button';
-import { Spinner } from 'native-base'
+import RNRestart from 'react-native-restart';
 
-import MapView from 'react-native-maps'
-import Polyline from '@mapbox/polyline'
+import MapView from 'react-native-maps';
+import Polyline from '@mapbox/polyline';
 
-import DirectionsStore from '../stores/directionsStore'
+import DirectionsStore from '../stores/directionsStore';
 
 const renderLegs = new DirectionsStore()
 
@@ -41,23 +41,7 @@ export default class Map extends Component {
     }
   }
 
-  forceUpdate() {
-    console.log('forceUpdate is being called yo');
-    // this.setState({pushedCoords: []})
-    // console.log('%%%%%% pushedCoords %%%%%%%%%%%', this.state.pushedCoords);
-    // this.setState({pushedText: []})
-    // console.log('%%%%%% pushedText %%%%%%%%%%%', this.state.pushedText);
-    // this.setState({finalText: []})
-    // console.log('%%%%%% finalText %%%%%%%%%%%', this.state.finalText);
-    // this.setState({finalCoords: []})
-    // console.log('%%%%%% finalCoords %%%%%%%%%%%', this.state.finalCoords);
-    // this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: true})
-  }
-
   componentWillMount(){
-    // this.forceUpdate()
-    console.log('%%%%%%%%%%% this.state.coords in componentWillMount', this.state.coords);
-    console.log('%%%%%%%%%%% this.state.wholeText in componentWillMount', this.state.wholeText);
 
     renderLegs.getStartCoords()
     .then(start => {
@@ -81,8 +65,7 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
-      console.log('%%%%%%%%%%% this.state.coords in componentDidMount', this.state.coords);
-      console.log('%%%%%%%%%%% this.state.wholeText in componentDidMount', this.state.wholeText);
+
   renderLegs.getStartCity()
       .then(startCity => {
         this.setState({ startCity })
@@ -115,14 +98,12 @@ export default class Map extends Component {
                     finalCoords = pushedCoords.reduce((a, b) => {
                       return a.concat(b)
                     })
-                    // console.log(finalCoords);
 
                     pushedText.push(bikeDirections.text, busDirections.text, bikeTwo.text)
 
                     finalText = pushedText.reduce((c, d) => {
                       return c.concat(d)
                     })
-                    // console.log(finalText);
 
                     this.setState({coords: finalCoords})
                     this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: false})
@@ -133,52 +114,36 @@ export default class Map extends Component {
             })
           })
         })
-    // added this after looking at r-n listView example
       .done()
   }
 
   _newSearch() {
-    // this.setState({startCity: '', endCity: '',  busStart: '', busEnd: '', coords1: [], text1: [], coords2: [], text2: [], coords3: [], text3: [], coords: [], wholeText: [], loaded: false })
-
-    this.props.navigator.pop()
-
-    // this.props.navigator.replace({
-    //   title: 'Start Trip'
-    // })
+    RNRestart.Restart();
   }
 
 componentWillUnmount(){
-  console.log('componentWillUnmount is being called yo');
-  // this.setState({pushedCoords: []})
-  console.log('%%%%%% pushedCoords %%%%%%%%%%%', this.state.pushedCoords);
-  // this.setState({pushedText: []})
-  console.log('%%%%%% pushedText %%%%%%%%%%%', this.state.pushedText);
-  // this.setState({finalText: []})
-  console.log('%%%%%% finalText %%%%%%%%%%%', this.state.finalText);
-  // this.setState({finalCoords: []})
-  console.log('%%%%%% finalCoords %%%%%%%%%%%', this.state.finalCoords);
-  // this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: true})
 
-  // MapView.Polyline.remove()
-  // const blankState = {};
-  //     Object.keys(this.state).forEach(stateKey => {
-  //       if(stateKey !== 'dataSource') {
-  //       blankState[stateKey] = undefined;
-  //       }
-  //     });
-  //     this.setState(blankState);
-  //     console.log('%%%%%%% this.state after componentWillUnmount %%%%%%', this.state.coords, this.state.wholeText);
 }
 
   render() {
+    let mapLat = this.state.start.slice()
+    let splitCoords = mapLat.split(", ")
+    let startLat = +splitCoords[0]
+    let startLng = +splitCoords[1]
+
     return (
-      <View>
+      <View style={styles.view}>
         <MapView style={styles.map} initialRegion={{
-          latitude:39.753931,
-          longitude:-105.001159,
+          latitude:startLat,
+          longitude:startLng,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
-        }}>
+        }}
+        showsUserLocation={true}
+        loadingEnabled={true}
+        loadingIndicatorColor="#e6fef6"
+        loadingBackgroundColor="#400230"
+        >
         <MapView.Polyline
             coordinates={this.state.coords}
             strokeWidth={2}
@@ -191,49 +156,71 @@ componentWillUnmount(){
             onPress={() => this._newSearch()}>
             New Search
         </Button>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text>{rowData}</Text>}
-          style={styles.directions}
-        />
+        <View style={styles.container}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) => <Text style={styles.text}>{rowData}</Text>}
+            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+            style={styles.directions}
+          />
+        </View>
       </View>
     )
   }
 }
 
+
+// <SectionList
+//           sections={[
+//             {title: 'D', data: ['Devin']},
+//             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
+//           ]}
+//           renderItem={({item}) => <Text style={styles.listText}>{item}</Text>}
+//           renderSectionHeader={({section}) => <Text style={styles.directions}>{section.title}</Text>}
+//         />
+
+
+
 const styles = StyleSheet.create({
   map: {
+    padding: 0,
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * .85
+    height: Dimensions.get('window').height * .7
+  },
+  container: {
+    flex: 1,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   directions: {
     flex: 1,
-    marginTop: Dimensions.get('window').height * .85,
-    paddingTop: 1,
+    marginTop: Dimensions.get('window').height * .65,
+    paddingTop: 0,
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 90,
     bottom: 0
-
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#8E8E8E',
   },
   newSearch: {
     marginTop: 20,
+  },
+  text: {
+   marginLeft: 12,
+   fontSize: 16,
+ },
+  view: {
+    flex:1,
+    padding: 0,
   }
 });
-
-
-
-//
-
-// <ScrollView style={styles.directions}>
-//   <Text> where do i go? </Text>
-//   <Text> where do i go? </Text>
-//   <Text> where do i go? </Text>
-//   <Text> where do i go? </Text>
-//   <Text> where do i go? </Text>
-// </ScrollView>

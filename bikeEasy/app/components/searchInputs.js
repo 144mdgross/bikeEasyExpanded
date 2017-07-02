@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, AsyncStorage } from 'react-native'
+import { ScrollView, Text, AsyncStorage, Dimensions } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import Button from 'react-native-button';
 
@@ -20,14 +20,8 @@ export default class SearchInput extends Component {
     }
 }
 
-  // _handlePress() {
-  //   this.props.navigator.replace({
-  //       title: 'Map'
-  //     })
-  //   }
-
   _useLocation() {
-    // use geolocation api hereeeeeeee
+    // use geolocation api here
   }
 
   getCity(info) {
@@ -37,12 +31,6 @@ export default class SearchInput extends Component {
         return info.address_components[i].long_name
       }
     }
-    // loop through address component array.
-    // check to see if 'types' exists
-    // if it does check the first index and see if it === 'locality'
-    // if it does return that index[long_name]
-
-
   }
 
   render(){
@@ -100,7 +88,7 @@ export default class SearchInput extends Component {
 
               debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
-              renderRightButton={() => <Text>Custom text after the inputag</Text>}
+              // renderRightButton={() => <Text>Custom text after the inputag</Text>}
 
               styles={{
                 textInputContainer: {
@@ -169,13 +157,14 @@ export default class SearchInput extends Component {
 
                     debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
-                    renderRightButton={() => <Text>Custom text after the inputag</Text>}
+                    // renderRightButton={() => <Text>Custom text after the inputag</Text>}
 
                     styles={{
                       textInputContainer: {
                         backgroundColor: 'rgba(0,0,0,0)',
                         borderTopWidth: 0,
-                        borderBottomWidth:0
+                        borderBottomWidth:0,
+                        marginTop: 20,
                       },
                       textInput: {
                         marginLeft: 0,
@@ -193,35 +182,3 @@ export default class SearchInput extends Component {
     )
   }
 }
-
-
-// <View>
-// <Button
-//     style={{fontSize: 20, color: 'green'}}
-//     styleDisabled={{color: 'red'}}
-//     onPress={() => this._useLocation()}>
-//     use my location
-// </Button>
-//   <TextInput
-//       style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-//       onChangeText={start => this.setState({start})}
-//       value={this.state.start}
-//     />
-//     <TextInput
-//         style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-//         onChangeText={end => this.setState({end})}
-//         value={this.state.end}
-//       />
-//     <Button
-//         style={{fontSize: 20, color: 'green'}}
-//         styleDisabled={{color: 'red'}}
-//         onPress={() => this._handlePress()}>
-//         Go!
-//     </Button>
-//     <Picker
-//       selectedValue={this.state.depart}
-//       onValueChange={(time) => this.setState({depart: time})}>
-//       <Picker.Item label="Java" value="java" />
-//       <Picker.Item label="JavaScript" value="js" />
-//     </Picker>
-// </View>

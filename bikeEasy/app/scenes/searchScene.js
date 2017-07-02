@@ -4,6 +4,7 @@ import { Navigator } from 'react-native-deprecated-custom-components'
 import Button from 'react-native-button';
 
 import SearchInputs from '../components/searchInputs'
+import Storage from '../stores/directionsStore.js'
 
 export default class SearchScene extends Component {
   constructor(props) {
@@ -22,8 +23,8 @@ export default class SearchScene extends Component {
 
   render(){
     return(
-    <View>
-      <SearchInputs/>
+    <View style={styles.back}>
+      <SearchInputs style={styles.search}/>
       <Button
           style={styles.go}
           styleDisabled={{color: 'red'}}
@@ -46,5 +47,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 20,
     color: 'green',
+  },
+  search: {
+    width: Dimensions.get('window').width * .9,
+  },
+  back: {
+    // backgroundColor: 'rgba(139, 4, 33, 0.86)',
+    height: Dimensions.get('window').height,
   }
 })
