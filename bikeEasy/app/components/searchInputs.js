@@ -68,6 +68,7 @@ export default class SearchInput extends Component {
                 predefinedPlacesDescription: {
                   color: '#1faadb',
                 },
+
               }}
 
               currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
@@ -92,19 +93,30 @@ export default class SearchInput extends Component {
 
               styles={{
                 textInputContainer: {
-                  backgroundColor: 'rgba(0,0,0,0)',
+                  backgroundColor: 'rgba(230, 254, 246, 0.67)',
                   borderTopWidth: 0,
                   borderBottomWidth:0
                 },
                 textInput: {
                   marginLeft: 0,
                   marginRight: 0,
+                  backgroundColor: 'rgba(230, 254, 246, 0.67)',
                   height: 38,
                   color: '#5d5d5d',
+                  fontWeight: '600',
                   fontSize: 16
                 },
                 predefinedPlacesDescription: {
-                  color: '#1faadb'
+                  // color: '#1faadb',
+                  color: '#5d5d5d',
+                  fontWeight: '600',
+                  fontSize: 16
+                },
+                poweredContainer: {
+                  backgroundColor: 'rgba(230, 254, 246, 0.67)'
+                },
+                listView: {
+                  backgroundColor: 'rgba(230, 254, 246, 0.67)',
                 },
               }}
             />
@@ -161,20 +173,27 @@ export default class SearchInput extends Component {
 
                     styles={{
                       textInputContainer: {
-                        backgroundColor: 'rgba(0,0,0,0)',
+                        backgroundColor: 'rgba(230, 254, 246, 0.57)',
                         borderTopWidth: 0,
                         borderBottomWidth:0,
-                        marginTop: 20,
+                        marginTop: 10,
                       },
                       textInput: {
                         marginLeft: 0,
                         marginRight: 0,
+                        backgroundColor: 'rgba(230, 254, 246, 0.57)',
                         height: 38,
                         color: '#5d5d5d',
                         fontSize: 16
                       },
                       predefinedPlacesDescription: {
-                        color: '#1faadb'
+                        color: '#1faadb',
+                      },
+                      poweredContainer: {
+                        backgroundColor: 'rgba(230, 254, 246, 0.57)'
+                      },
+                      listView: {
+                        backgroundColor: 'rgba(230, 254, 246, 0.57)'
                       },
                     }}
                   />

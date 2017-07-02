@@ -29,6 +29,14 @@ xcode-select --install
 </table>
 
 # Available Actions
+### release
+```
+fastlane release
+```
+Deploy a new version to the App Store
+
+----
+
 ## iOS
 ### ios test
 ```

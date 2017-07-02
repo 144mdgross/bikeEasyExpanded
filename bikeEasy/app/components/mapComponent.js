@@ -140,6 +140,7 @@ componentWillUnmount(){
           longitudeDelta: 0.0421
         }}
         showsUserLocation={true}
+        followsUserLocation={true}
         loadingEnabled={true}
         loadingIndicatorColor="#e6fef6"
         loadingBackgroundColor="#400230"
