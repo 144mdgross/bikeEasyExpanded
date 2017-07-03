@@ -93,6 +93,7 @@ export default class Directions {
 
       let respJsonBike = await respBike.json()
       let completeBikeSteps = respJsonBike.routes[0].legs[0].steps
+      console.log('completeBikeSteps **************', completeBikeSteps);
       let pointsBike = Polyline.decode(respJsonBike.routes[0].overview_polyline.points)
 
       let coordsBike = pointsBike.map((point, index) => {
@@ -102,15 +103,32 @@ export default class Directions {
         }
       })
 
-      let text = completeBikeSteps.map((obj, index) => {
+      let bikeText = completeBikeSteps.map((obj, index) => {
         let regex = /(<([^>]+)>)/ig,
           result = obj.html_instructions.replace(regex, " ")
         return result
       })
 
+      let stepDistanceBike = completeBikeSteps.map((step, index) => {
+        return step.distance.text
+      })
+
+      let stepCoords = completeBikeSteps.map((stepStart, index) => {
+        return stepStart.start_location
+      })
+
+      let instructions = []
+
+      for(let i = 0, j = 0; i < bikeText.length && j < stepDistanceBike.length; i++, j++) {
+        instructions.push(`${bikeText[i]} - ${stepDistanceBike[i]}`)
+      }
+
+      console.log('%%%%%%%%%% bike instructions', instructions);
+
       return {
         coordsBike,
-        text
+        instructions,
+        stepCoords
       }
     } catch (error) {
       alert(error)
@@ -148,9 +166,25 @@ export default class Directions {
         return obj.html_instructions
       })
 
+      let stepDistance = completeSteps.map((step, index) => {
+        return step.distance.text
+      })
+
+      let instructions = []
+
+      for(let i = 0, j = 0; i < text.length && j < stepDistance.length; i++, j++) {
+        instructions.push(`${text[i]} - ${stepDistance[i]}`)
+      }
+      console.log('%%%%%%%%%%%%%%%%%%%% instructions %%%%%%%%%%%%%%%%%%%', instructions);
+
+      let stepCoords = completeSteps.map((stepStart, index) => {
+        return stepStart.start_location
+      })
+
       return {
         coords,
-        text
+        instructions,
+        stepCoords
       }
     } catch (error) {
       alert(error)

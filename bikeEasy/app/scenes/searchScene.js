@@ -28,17 +28,11 @@ export default class SearchScene extends Component {
 
       <SearchInputs style={styles.search}/>
       <Button
-          style={styles.go}
+          containerStyle={styles.buttonContainer}
           styleDisabled={{color: 'red'}}
           onPress={() => this._go()}>
-          go
+          <Text style={styles.go}>go</Text>
       </Button>
-      <Picker
-           selectedValue={this.state.depart}
-           onValueChange={(time) => this.setState({depart: time})}>
-           <Picker.Item label="Java" value="java" />
-           <Picker.Item label="JavaScript" value="js" />
-         </Picker>
     </View>
   </Image>
     )
@@ -47,12 +41,27 @@ export default class SearchScene extends Component {
 
 const styles = StyleSheet.create({
   go: {
-    marginTop: 50,
-    fontSize: 20,
-    color: 'green',
+    // marginTop: 50,
+    fontSize: 30,
+    color: 'white',
+    alignSelf: 'center',
   },
   search: {
     width: Dimensions.get('window').width * .9,
+  },
+  buttonContainer: {
+    marginTop: 10,
+    // padding:10,
+    height:45,
+    width: 90,
+    alignSelf: 'center',
+    overflow:'hidden',
+    borderRadius:4,
+    backgroundColor: 'rgba(0, 0, 0, .85)',
+    // shadowColor: 'rgba(0, 0, 0, 1)',
+    // shadowOffset: {width: 10, height: 10},
+
+
   },
   back: {
     flex: 1,
@@ -64,3 +73,10 @@ const styles = StyleSheet.create({
     // width: Dimensions.get('window').width * .5,
   }
 })
+
+// <Picker
+//      selectedValue={this.state.depart}
+//      onValueChange={(time) => this.setState({depart: time})}>
+//      <Picker.Item label="Java" value="java" />
+//      <Picker.Item label="JavaScript" value="js" />
+//    </Picker>

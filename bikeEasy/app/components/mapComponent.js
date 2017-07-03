@@ -80,26 +80,29 @@ export default class Map extends Component {
 
         renderLegs.getBikeDirections(this.state.start, this.state.startCity)
           .then(bikeDirections => {
+            console.log('BIKE DIRECTIONS %%%%%%%%%%%%%%%', bikeDirections);
             this.setState({coords1: bikeDirections.coordsBike})
-            this.setState({text1: bikeDirections.text})
+            this.setState({text1: bikeDirections.instructions})
+            console.log('************ this.state.coords1 ***********', this.state.coords1);
 
             renderLegs.getBusDirections(this.state.startCity, this.state.endCity)
               .then(busDirections => {
                 this.setState({coords2: busDirections.coords})
-                this.setState({text2: busDirections.text})
+                this.setState({text2: busDirections.instructions})
 
                 renderLegs.getBikeDirections(this.state.endCity, this.state.end)
                   .then(bikeTwo => {
                     this.setState({coords3: bikeTwo.coordsBike})
-                    this.setState({text3: bikeTwo.text})
+                    this.setState({text3: bikeTwo.instructions})
 
                     pushedCoords.push(bikeDirections.coordsBike, busDirections.coords, bikeTwo.coordsBike)
+                    console.log('%%%%%%%%%%%%%% pushedCoords', pushedCoords);
 
                     finalCoords = pushedCoords.reduce((a, b) => {
                       return a.concat(b)
                     })
 
-                    pushedText.push(bikeDirections.text, busDirections.text, bikeTwo.text)
+                    pushedText.push(bikeDirections.instructions, busDirections.instructions, bikeTwo.instructions)
 
                     finalText = pushedText.reduce((c, d) => {
                       return c.concat(d)
@@ -140,10 +143,10 @@ componentWillUnmount(){
           longitudeDelta: 0.0421
         }}
         showsUserLocation={true}
-        followsUserLocation={true}
+        // followsUserLocation={true}
         loadingEnabled={true}
         loadingIndicatorColor="#e6fef6"
-        loadingBackgroundColor="#400230"
+        loadingBackgroundColor="rgba(27, 4, 12, .9)"
         >
         <MapView.Polyline
             coordinates={this.state.coords}
@@ -152,10 +155,10 @@ componentWillUnmount(){
 
         </MapView>
         <Button
-            style={styles.newSearch}
+            containerStyle={styles.newSearch}
             styleDisabled={{color: 'red'}}
             onPress={() => this._newSearch()}>
-            New Search
+            <Text style={styles.searchText}>back</Text>
         </Button>
         <View style={styles.container}>
           <ListView
@@ -191,11 +194,13 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * .7
+    height: Dimensions.get('window').height * .7,
+    borderWidth: 4,
+    borderColor: 'rgba(0, 0, 0, .85)'
   },
   container: {
     flex: 1,
-    padding: 12,
+    // padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -206,7 +211,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 90,
-    bottom: 0
+    bottom: 0,
+    // borderWidth: 5,
+    // borderColor: 'rgba(0, 0, 0, .85)'
   },
   separator: {
     flex: 1,
@@ -214,14 +221,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#8E8E8E',
   },
   newSearch: {
-    marginTop: 20,
+    marginTop: 25,
+    marginRight: 285,
+    padding:10,
+    height:45,
+    width: 70,
+    alignSelf: 'center',
+    overflow:'hidden',
+    borderRadius:4,
+    backgroundColor: 'rgba(0, 0, 0, .85)',
+  },
+  searchText: {
+    // marginTop: 50,
+    fontSize: 20,
+    color: 'white',
+    alignSelf: 'center',
   },
   text: {
    marginLeft: 12,
-   fontSize: 16,
+   fontSize: 18,
+  //  color: 'rgba(63, 8, 28, 1)',
+  color: 'white',
+   fontWeight: '500',
  },
   view: {
     flex:1,
     padding: 0,
+    backgroundColor: 'rgba(0, 0, 0, .85)'
   }
 });

@@ -3,8 +3,8 @@ import { ScrollView, Text, AsyncStorage, Dimensions } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import Button from 'react-native-button';
 
-const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+// const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
+// const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 import DirectionsStore from '../stores/directionsStore'
 
@@ -63,7 +63,7 @@ export default class SearchInput extends Component {
               }}
               styles={{
                 description: {
-                  fontWeight: 'bold',
+                  fontWeight: '800',
                 },
                 predefinedPlacesDescription: {
                   color: '#1faadb',
@@ -71,7 +71,7 @@ export default class SearchInput extends Component {
 
               }}
 
-              currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+              currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
               currentLocationLabel="Current location"
               nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
               // GoogleReverseGeocodingQuery={{
@@ -85,7 +85,7 @@ export default class SearchInput extends Component {
 
               filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
 
-              predefinedPlaces={[homePlace, workPlace]}
+              // predefinedPlaces={[homePlace, workPlace]}
 
               debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
@@ -93,21 +93,21 @@ export default class SearchInput extends Component {
 
               styles={{
                 textInputContainer: {
-                  backgroundColor: 'rgba(230, 254, 246, 0.67)',
+                  backgroundColor: 'rgba(27, 4, 12, 0)',
                   borderTopWidth: 0,
-                  borderBottomWidth:0
+                  borderBottomWidth:0,
+                  marginTop: 140,
                 },
                 textInput: {
                   marginLeft: 0,
                   marginRight: 0,
-                  backgroundColor: 'rgba(230, 254, 246, 0.67)',
+                  backgroundColor: 'rgba(27, 4, 12, .9)',
                   height: 38,
-                  color: '#5d5d5d',
+                  color: 'rgba(196, 196, 196, 1)',
                   fontWeight: '600',
                   fontSize: 16
                 },
                 predefinedPlacesDescription: {
-                  // color: '#1faadb',
                   color: '#5d5d5d',
                   fontWeight: '600',
                   fontSize: 16
@@ -116,7 +116,7 @@ export default class SearchInput extends Component {
                   backgroundColor: 'rgba(230, 254, 246, 0.67)'
                 },
                 listView: {
-                  backgroundColor: 'rgba(230, 254, 246, 0.67)',
+                  backgroundColor: 'rgba(230, 254, 246, 0.87)'
                 },
               }}
             />
@@ -151,7 +151,7 @@ export default class SearchInput extends Component {
                       },
                     }}
 
-                    currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+                    currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
                     currentLocationLabel="Current location"
                     nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
                     // GoogleReverseGeocodingQuery={{
@@ -165,7 +165,7 @@ export default class SearchInput extends Component {
 
                     filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
 
-                    predefinedPlaces={[homePlace, workPlace]}
+                    // predefinedPlaces={[homePlace, workPlace]}
 
                     debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
 
@@ -173,27 +173,29 @@ export default class SearchInput extends Component {
 
                     styles={{
                       textInputContainer: {
-                        backgroundColor: 'rgba(230, 254, 246, 0.57)',
+                        backgroundColor: 'rgba(27, 4, 12, 0)',
                         borderTopWidth: 0,
-                        borderBottomWidth:0,
-                        marginTop: 10,
+                        borderBottomWidth:0
                       },
                       textInput: {
                         marginLeft: 0,
                         marginRight: 0,
-                        backgroundColor: 'rgba(230, 254, 246, 0.57)',
+                        backgroundColor: 'rgba(27, 4, 12, .9)',
                         height: 38,
-                        color: '#5d5d5d',
+                        color: 'rgba(196, 196, 196, 1)',
+                        fontWeight: '600',
                         fontSize: 16
                       },
                       predefinedPlacesDescription: {
-                        color: '#1faadb',
+                        color: '#5d5d5d',
+                        fontWeight: '600',
+                        fontSize: 16
                       },
                       poweredContainer: {
-                        backgroundColor: 'rgba(230, 254, 246, 0.57)'
+                        backgroundColor: 'rgba(230, 254, 246, 0.67)'
                       },
                       listView: {
-                        backgroundColor: 'rgba(230, 254, 246, 0.57)'
+                        backgroundColor: 'rgba(230, 254, 246, 0.87)'
                       },
                     }}
                   />
