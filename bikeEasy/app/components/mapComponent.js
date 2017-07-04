@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ListView, StyleSheet, Dimensions, AsyncStorage } from 'react-native';
+import { View, Text, ListView, StyleSheet, Dimensions, AsyncStorage, TouchableOpacity } from 'react-native';
 import { Navigator } from 'react-native-deprecated-custom-components';
 import Button from 'react-native-button';
 import RNRestart from 'react-native-restart';
@@ -16,6 +16,23 @@ let finalCoords
 
 let pushedText = []
 let finalText
+
+let totalTime
+let totalDistance
+
+// const TextCoords = React.createClass({
+//   propTypes: {
+//     onPress: React.PropTypes.func,
+//     coords: React.PropTypes.string
+//   },
+//
+//   getDefualtProps() {
+//     return {
+//       onPress: () => {},
+//       coords: "40.018779, -105.276376",
+//     }
+//   }
+// })
 
 export default class Map extends Component {
   constructor(props) {
@@ -36,6 +53,8 @@ export default class Map extends Component {
       text3: [],
       coords: [],
       wholeText: [],
+      totalTime: undefined,
+      totalDistance: undefined,
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       fetching: true
     }
@@ -80,10 +99,8 @@ export default class Map extends Component {
 
         renderLegs.getBikeDirections(this.state.start, this.state.startCity)
           .then(bikeDirections => {
-            console.log('BIKE DIRECTIONS %%%%%%%%%%%%%%%', bikeDirections);
             this.setState({coords1: bikeDirections.coordsBike})
             this.setState({text1: bikeDirections.instructions})
-            console.log('************ this.state.coords1 ***********', this.state.coords1);
 
             renderLegs.getBusDirections(this.state.startCity, this.state.endCity)
               .then(busDirections => {
@@ -96,7 +113,6 @@ export default class Map extends Component {
                     this.setState({text3: bikeTwo.instructions})
 
                     pushedCoords.push(bikeDirections.coordsBike, busDirections.coords, bikeTwo.coordsBike)
-                    console.log('%%%%%%%%%%%%%% pushedCoords', pushedCoords);
 
                     finalCoords = pushedCoords.reduce((a, b) => {
                       return a.concat(b)
@@ -110,6 +126,11 @@ export default class Map extends Component {
 
                     this.setState({coords: finalCoords})
                     this.setState({dataSource: this.state.dataSource.cloneWithRows(finalText), fetching: false})
+
+                    totalTime = bikeDirections.time + busDirections.time + bikeTwo.time
+                    totalDistance = bikeDirections.distance = busDirections.distance + bikeTwo.distance
+                    this.setState({ totalTime })
+                    this.setState({ totalDistance })
 
                   })
                 })
@@ -136,17 +157,21 @@ componentWillUnmount(){
 
     return (
       <View style={styles.view}>
-        <MapView style={styles.map} initialRegion={{
+        <MapView
+        ref = {(mapView) => { _mapView = mapView; }}
+         style={styles.map} initialRegion={{
           latitude:startLat,
           longitude:startLng,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
+          latitudeDelta: 0.0002,
+          longitudeDelta: 0.0111
         }}
         showsUserLocation={true}
         // followsUserLocation={true}
         loadingEnabled={true}
         loadingIndicatorColor="#e6fef6"
         loadingBackgroundColor="rgba(27, 4, 12, .9)"
+        scrollEnabled={true}
+        zoomEnabled={true}
         >
         <MapView.Polyline
             coordinates={this.state.coords}
@@ -163,7 +188,20 @@ componentWillUnmount(){
         <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text style={styles.text}>{rowData}</Text>}
+            renderRow={(rowData) => {
+              console.log('%%%%%%%%%%% rowData %%%%%%%%%%%%', rowData);
+              return (
+              <TouchableOpacity>
+                  <Text style={styles.text} onPress = {() => _mapView.animateToCoordinate({
+                   latitude: `${rowData.coords.lat}`,
+                   longitude: `${rowData.coords.lng}`,
+                  //  latitudeDelta: 0.1022,
+                  //  longitudeDelta: 0.0321
+                 }, 1000)}>{rowData.text}</Text>
+              </TouchableOpacity>
+            )
+            }
+            }
             renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
             style={styles.directions}
           />
@@ -172,7 +210,14 @@ componentWillUnmount(){
     )
   }
 }
-
+//
+// <TouchableOpacity
+//            onPress = {() => _mapView.animateToCoordinate({
+//             latitude: LATITUDE,
+//             longitude: LONGITUDE
+//           }, 1000)}>
+//           <Text>Tap</Text>
+//         </TouchableOpacity>
 
 // <SectionList
 //           sections={[

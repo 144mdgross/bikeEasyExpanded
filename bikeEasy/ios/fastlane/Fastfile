@@ -69,6 +69,10 @@ platform :ios do
   end
 end
 
+lane :appstore do
+  gym(scheme: "bikeEasy")
+end
+
 desc "Deploy a new version to the App Store"
   lane :release do
     match(

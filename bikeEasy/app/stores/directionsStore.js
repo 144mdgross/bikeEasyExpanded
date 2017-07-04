@@ -93,7 +93,6 @@ export default class Directions {
 
       let respJsonBike = await respBike.json()
       let completeBikeSteps = respJsonBike.routes[0].legs[0].steps
-      console.log('completeBikeSteps **************', completeBikeSteps);
       let pointsBike = Polyline.decode(respJsonBike.routes[0].overview_polyline.points)
 
       let coordsBike = pointsBike.map((point, index) => {
@@ -113,22 +112,28 @@ export default class Directions {
         return step.distance.text
       })
 
+      let time = +respJsonBike.routes[0].legs[0].duration.text.match(/\d+/g)
+
+      let distance = +respJsonBike.routes[0].legs[0].distance.text.match(/\d+\.?\d+/g)
+
       let stepCoords = completeBikeSteps.map((stepStart, index) => {
         return stepStart.start_location
       })
 
+            console.log('%%%%%%%%%% stepCoords bike %%%%%%%%%%%%%%', stepCoords);
+
       let instructions = []
 
       for(let i = 0, j = 0; i < bikeText.length && j < stepDistanceBike.length; i++, j++) {
-        instructions.push(`${bikeText[i]} - ${stepDistanceBike[i]}`)
+        instructions.push({ text: `${bikeText[i]} - ${stepDistanceBike[i]}`, coords: stepCoords[i] })
       }
-
-      console.log('%%%%%%%%%% bike instructions', instructions);
 
       return {
         coordsBike,
         instructions,
-        stepCoords
+        stepCoords,
+        time,
+        distance
       }
     } catch (error) {
       alert(error)
@@ -170,21 +175,30 @@ export default class Directions {
         return step.distance.text
       })
 
-      let instructions = []
-
-      for(let i = 0, j = 0; i < text.length && j < stepDistance.length; i++, j++) {
-        instructions.push(`${text[i]} - ${stepDistance[i]}`)
-      }
-      console.log('%%%%%%%%%%%%%%%%%%%% instructions %%%%%%%%%%%%%%%%%%%', instructions);
+      // NOTE: currently returns NaN for busTrips longer than 59 minutes.
+      let time = respJson.routes[0].legs[0].duration.text.match(/\d+/g)
+      let distance = +respJson.routes[0].legs[0].distance.text.match(/\d+\.?\d+/g)
 
       let stepCoords = completeSteps.map((stepStart, index) => {
         return stepStart.start_location
       })
 
+      console.log('%%%%%%%%%% stepCoords bus %%%%%%%%%%%%%%', stepCoords);
+
+      let instructions = []
+
+      for(let i = 0, j = 0; i < text.length && j < stepDistance.length; i++, j++) {
+        instructions.push({ text: `${text[i]} - ${stepDistance[i]}`, coords: stepCoords[i]})
+      }
+
+
+
       return {
         coords,
         instructions,
-        stepCoords
+        stepCoords,
+        time,
+        distance
       }
     } catch (error) {
       alert(error)
