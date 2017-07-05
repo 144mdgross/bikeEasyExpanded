@@ -6,6 +6,8 @@ import SearchScene from './scenes/searchScene'
 import Map from './components/mapComponent'
 import DirectionsList from './components/directionsList'
 
+console.disableYellowBox = true;
+
 export default class AppContainer extends Component {
   constructor(){
     super()
