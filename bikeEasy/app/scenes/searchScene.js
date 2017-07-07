@@ -58,25 +58,11 @@ const styles = StyleSheet.create({
     overflow:'hidden',
     borderRadius:4,
     backgroundColor: 'rgba(0, 0, 0, .85)',
-    // shadowColor: 'rgba(0, 0, 0, 1)',
-    // shadowOffset: {width: 10, height: 10},
-
-
   },
   back: {
     flex: 1,
     alignSelf: 'stretch',
     width: null,
     height: null,
-    // width: Dimensions.get('window').width,
-    // height: null,
-    // width: Dimensions.get('window').width * .5,
   }
 })
-
-// <Picker
-//      selectedValue={this.state.depart}
-//      onValueChange={(time) => this.setState({depart: time})}>
-//      <Picker.Item label="Java" value="java" />
-//      <Picker.Item label="JavaScript" value="js" />
-//    </Picker>

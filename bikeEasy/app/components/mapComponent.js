@@ -20,20 +20,6 @@ let finalText
 let totalTime
 let totalDistance
 
-// const TextCoords = React.createClass({
-//   propTypes: {
-//     onPress: React.PropTypes.func,
-//     coords: React.PropTypes.string
-//   },
-//
-//   getDefualtProps() {
-//     return {
-//       onPress: () => {},
-//       coords: "40.018779, -105.276376",
-//     }
-//   }
-// })
-
 export default class Map extends Component {
   constructor(props) {
     super(props)
@@ -142,11 +128,12 @@ export default class Map extends Component {
   }
 
   _newSearch() {
+    // Restarting the App is my best option until my issue deleting the polyline is resolved
     RNRestart.Restart();
   }
 
 componentWillUnmount(){
-
+  // clean up Navigator Memory leaks here
 }
 
   render() {
@@ -210,25 +197,6 @@ componentWillUnmount(){
     )
   }
 }
-//
-// <TouchableOpacity
-//            onPress = {() => _mapView.animateToCoordinate({
-//             latitude: LATITUDE,
-//             longitude: LONGITUDE
-//           }, 1000)}>
-//           <Text>Tap</Text>
-//         </TouchableOpacity>
-
-// <SectionList
-//           sections={[
-//             {title: 'D', data: ['Devin']},
-//             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
-//           ]}
-//           renderItem={({item}) => <Text style={styles.listText}>{item}</Text>}
-//           renderSectionHeader={({section}) => <Text style={styles.directions}>{section.title}</Text>}
-//         />
-
-
 
 const styles = StyleSheet.create({
   map: {
@@ -245,7 +213,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -257,8 +224,6 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 90,
     bottom: 0,
-    // borderWidth: 5,
-    // borderColor: 'rgba(0, 0, 0, .85)'
   },
   separator: {
     flex: 1,
@@ -277,7 +242,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .85)',
   },
   searchText: {
-    // marginTop: 50,
     fontSize: 20,
     color: 'white',
     alignSelf: 'center',
@@ -285,7 +249,6 @@ const styles = StyleSheet.create({
   text: {
    marginLeft: 12,
    fontSize: 18,
-  //  color: 'rgba(63, 8, 28, 1)',
   color: 'white',
    fontWeight: '500',
  },

@@ -20,10 +20,6 @@ export default class SearchInput extends Component {
     }
 }
 
-  _useLocation() {
-    // use geolocation api here
-  }
-
   getCity(info) {
     for (let i = 0; i < info.address_components.length; i++) {
       if (info.address_components[i].types[0] === 'locality') {

@@ -4,7 +4,6 @@ import Button from 'react-native-button';
 
 export default class DirectionsList extends Component {
 
-
   _viewMap() {
     this.props.navigator.replace({
       title: 'Map'
@@ -24,5 +23,4 @@ export default class DirectionsList extends Component {
       </View>
     )
   }
-
 }

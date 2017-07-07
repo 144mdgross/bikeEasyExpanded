@@ -120,8 +120,6 @@ export default class Directions {
         return stepStart.start_location
       })
 
-            console.log('%%%%%%%%%% stepCoords bike %%%%%%%%%%%%%%', stepCoords);
-
       let instructions = []
 
       for(let i = 0, j = 0; i < bikeText.length && j < stepDistanceBike.length; i++, j++) {
@@ -183,15 +181,11 @@ export default class Directions {
         return stepStart.start_location
       })
 
-      console.log('%%%%%%%%%% stepCoords bus %%%%%%%%%%%%%%', stepCoords);
-
       let instructions = []
 
       for(let i = 0, j = 0; i < text.length && j < stepDistance.length; i++, j++) {
         instructions.push({ text: `${text[i]} - ${stepDistance[i]}`, coords: stepCoords[i]})
       }
-
-
 
       return {
         coords,
