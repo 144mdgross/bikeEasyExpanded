@@ -6,4 +6,6 @@ to get all the information they need for their trip. This is a frustrating proce
 when you're trying to get places. bikeEasy fixes that by giving you all the information you need 
 in one search. 
 
+Watch a demo [here](https://www.youtube.com/watch?v=qE5mG_VrwZE&t=6s).
+
 ***Technologies***: React-Native, JavaScript, Google Directions Service API, and my own API [bikeEasyRoutes](https://github.com/144mdgross/bikeEasyRoutes) built with Node.js, Express, and PostgreSQL
